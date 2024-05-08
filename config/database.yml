@@ -1,0 +1,6 @@
+development:
+  adapter: postgresql
+  database: internal_mess_tracker
+  host: localhost
+  username: postgres
+  password: postgres
