@@ -8,6 +8,7 @@ development:
 production:
   adapter: postgresql
   database: internal_mess_tracker_db
+  port: 5432
   host: dpg-cotlh0i1hbls73aacru0-a
   url: postgres://internal_mess_tracker_db_user:ERZpLk4Xkx2MdVdvH61boIi58plPXgVG@dpg-cotlh0i1hbls73aacru0-a/internal_mess_tracker_db
   username: internal_mess_tracker_db_user
