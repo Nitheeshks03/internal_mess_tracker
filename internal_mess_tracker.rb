@@ -17,12 +17,17 @@ def meal_params
     breakfast: params["breakfast"],
     lunch: params["lunch"],
     dinner: params["dinner"],
-    meal_date: params["meal_date"]
+    meal_date: params["meal_date"],
   }
 end
 
-
 get "/" do
+  if User.count.zero?
+    @mess_users = ["Nitheesh", "Pranav", "Abhiraj", "Rahul", "Aswin", "Demo", "Vishak"]
+    @mess_users.each do |user|
+      User.create(name: user)
+    end
+  end
   @users = User.all
   erb :index
 end
