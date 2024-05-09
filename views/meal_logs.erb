@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mess Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      html,
+      body {
+          overflow-x: hidden;
+          overflow-y: hidden;
+          font-family: "Roboto Mono", monospace;
+          background-color: rgb(236 253 245);
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <p class="text-2xl  text-center font-medium mt-6"> Your meal logs </p>
+      <div class="w-1/2 border border-solid mt-8 mb-4 font-semibold rounded-lg text-center bg-emerald-300 py-2 hover:border-black">
+      <a href="/">Go back to home</a>
+      </div>
+      <table class="border border-solid w-full mt-14">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Breakfast</th>
+            <th>Lunch</th>
+            <th>Dinner</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <% @meal_logs.each do |meal_log| %>
+            <tr>
+              <td> <%= meal_log.meal_date %> </td>
+              <td> <%= meal_log.breakfast %> </td>
+              <td> <%= meal_log.lunch %> </td>
+              <td> <%= meal_log.dinner %> </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

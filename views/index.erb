@@ -1,86 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mess Tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
     <style>
-        html,
-        body {
-            overflow-x: hidden;
-            overflow-y: hidden;
-        }
+      html,
+      body {
+        overflow-x: hidden;
+        overflow-y: hidden;
+        font-family: "Roboto Mono", monospace;
+        background-color: rgb(236 253 245);
+      }
+      p {
+        font-size: 18px;
+      }
     </style>
-</head>
-<body>
-<div class="w- object-cover  z-10">
-    <div class="absolute top-[50px] w-full translate-x-1/2">
-        <h1>Mess Tracker</h1>
-    </div>
-</div>
-
-<div
-    class="flex flex-col w-1/2 h-1/2 rounded-xl overflow-hidden absolute top-0 translate-x-1/2 translate-y-1/2"
->
-    <div class="bg-neutral-600 flex justify-between h-[10%] w-full">
-        <div class="flex items-center gap-2 w-full h-full ml-4">
-            <div class="w-[10px] h-[10px] rounded-full bg-red-600"></div>
-            <div class="w-[10px] h-[10px] rounded-full bg-yellow-200"></div>
-            <div class="w-[10px] h-[10px] rounded-full bg-lime-400"></div>
+  </head>
+  <body>
+    <h2 class="my-6 text-center text-[28px] font-semibold">Mess Tracker</h2>
+    <div class="w-full p-5 border-2 border-solid rounded-lg">
+      <form action="/meal_log" method="post" class="w-full">
+        <p class="mb-3">Choose user:</p>
+        <select class="w-full h-[40px] font-semibold px-4" name="user_id" id="user_id">
+          <% @users.each do |user| %>
+            <option value="<%= user.id %>"><%= user.name %></option>
+          <% end %>
+        </select>
+        <div class="w-full">
+          <p class="mt-8 mb-3">Choose your meals:</p>
+          <label class="font-semibold mr-2">
+            <input type="hidden" name="breakfast" value="false">
+            <input type="checkbox" name="breakfast" value="true" class="mr-2 size-4" />
+            Breakfast
+          </label>
+          <label class="font-semibold mr-2">
+            <input type="hidden" name="lunch" value="false">
+            <input type="checkbox" name="lunch" value="true" class="mr-2 size-4" />
+            Lunch
+          </label>
+          <label class="font-semibold mr-2">
+            <input type="hidden" name="dinner" value="false">
+            <input type="checkbox" name="dinner" value="true" class="mr-2 size-4" />
+            Dinner
+          </label>
         </div>
-        <div
-            class="flex items-center justify-center gap-2 w-[100px] h-full mr-2"
-        >
-            <div class="w-[4px] h-[4px] rounded-full bg-neutral-300"></div>
-            <div class="w-[4px] h-[4px] rounded-full bg-neutral-300"></div>
-            <div class="w-[4px] h-[4px] rounded-full bg-neutral-300"></div>
-        </div>
-    </div>
-    <div class="bg-neutral-700 h-[90%] w-full p-4">
-        <form action="/meal_log" method="post" class="flex flex-col gap-4">
-            <select
-                class="p-2 rounded-md border border-neutral-400"
-                name="user_id"
-                id="user_id"
-            >
-                <% @users.each do |user| %>
-                    <option value="<%= user.id %>"><%= user.name %></option>
-                <% end %>
-            </select>
-            <div class="flex gap-4 text-gray-300 items-center">
-                <label class="flex items-center">
-                    <input
-                        type="checkbox"
-                        name="breakfast"
-                        value="true"
-                        class="mr-2"
-                    />
-                    Breakfast
-                </label>
-                <label class="flex items-center">
-                    <input type="checkbox" name="lunch" value="true" class="mr-2" />
-                    Lunch
-                </label>
-                <label class="flex items-center">
-                    <input type="checkbox" name="dinner" value="true" class="mr-2" />
-                    Dinner
-                </label>
-            </div>
-            <input
-                type="date"
-                name="meal_date"
-                id="meal_date"
-                class="p-2 rounded-lg border border-neutral-400"
-            />
-            <button
-                type="submit"
-                class="bg-neutral-500 mt-5 text-white p-2 rounded-lg hover:bg-neutral-600"
-            >
-                Submit
-            </button>
-        </form>
-    </div>
-</div>
+        <p class="mt-8 mb-3">Choose meal date:</p>
+        <input type="date" name="meal_date" id="meal_date" class="w-full h-[40px]" />
+      </label>
+      <br>
+      <div class="border border-solid mt-8 mb-4 font-semibold rounded-lg text-center bg-emerald-300 py-2 hover:border-black">
+        <button type="submit" class="w-full">Submit</button>
+      </div>
+    </form>
+  </div>
+  <div class="w-full mt-6 p-5 border-2 border-solid rounded-lg bg-emerald-100	">
+    <p class="text-xl text-center font-medium underline">See your meal logs</p>
+    <form action="/meal_logs" method="get">
+      <p class="mt-8 mb-4">Select user</p>
+      <select class="w-full h-[40px] font-semibold px-4" name="user_id" id="user_id">
+        <% @users.each do |user| %>
+          <option value="<%= user.id %>"><%= user.name %></option>
+        <% end %>
+      </select>
+      <div class="border border-solid mt-8 mb-4 font-semibold rounded-lg text-center bg-emerald-300 py-2 hover:border-black">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
 </body>
 </html>
