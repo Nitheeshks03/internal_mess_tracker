@@ -23,6 +23,18 @@
   </head>
   <body>
     <h2 class="my-6 text-center text-[28px] font-semibold">Mess Tracker</h2>
+    <% if flash[:notice] %>
+      <div class="px-2">
+        <p class="text-xl text-green-900"><%= flash[:notice] %></p>
+      </div>
+    <% end %>
+    <% if flash[:error] %>
+      <% flash[:error].each do |error| %>
+        <div class="px-2">
+          <p class="text-xl text-red-900"><%= error %></p>
+        </div>
+      <% end %>
+    <% end %>
     <div class="w-full p-5 border-2 border-solid rounded-lg">
       <form action="/meal_log" method="post" class="w-full">
         <p class="mb-3">Choose user:</p>

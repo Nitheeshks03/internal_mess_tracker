@@ -1,6 +1,9 @@
 require "bundler/setup"
 require "sinatra"
 require "sinatra/activerecord"
+require "date"
+
+enable :sessions
 
 Bundler.require
 
@@ -10,6 +13,7 @@ class User < ActiveRecord::Base
 end
 
 class MealLog < ActiveRecord::Base
+  validates :meal_date, presence: true
   belongs_to :user
 end
 
@@ -21,6 +25,14 @@ def meal_params
     dinner: params[:dinner],
     meal_date: params[:meal_date],
   }
+end
+
+def meal(meal_log)
+  b = meal_log.breakfast ? "breakfast" : ""
+  l = meal_log.lunch ? "lunch" : ""
+  d = meal_log.dinner ? "dinner" : ""
+
+  return [b, l, d].reject(&:empty?).join(", ")
 end
 
 get "/" do
@@ -43,10 +55,12 @@ end
 
 post "/meal_log" do
   @meal_log = MealLog.new(meal_params)
+
   if @meal_log.save
+    flash[:notice] = "You have successfully logged #{meal(@meal_log)} for #{@meal_log.meal_date.strftime("%b-%d")}"
     redirect "/"
-    puts "success"
   else
-    puts "failed"
+    flash[:error] = @meal_log.errors.full_messages
+    redirect "/"
   end
 end
