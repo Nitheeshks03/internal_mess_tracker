@@ -17,9 +17,11 @@
   </head>
   <body>
     <div>
-      <p class="text-2xl  text-center font-medium mt-6"> Your meal logs </p>
-      <div class="w-1/2 border border-solid mt-8 mb-4 font-semibold rounded-lg text-center bg-emerald-300 py-2 hover:border-black">
-      <a href="/">Go back to home</a>
+      <p class="text-2xl  text-center font-medium mt-6 underline"> Your meal logs </p>
+      <p class="text-xl  text-center font-medium mt-6">Your total for this month</p>
+      <div class="border border-solid border-grey p-2 w-[100px] mx-auto text-center mt-2 rounded-lg bg-emerald-200">₹ <%= @month_total%> </div>
+      <div class="w-[200px] border border-solid mt-8 mb-4 font-semibold rounded-lg text-center bg-emerald-300 py-2 hover:border-black">
+        <a href="/" class="min-w-full">Go back to home</a>
       </div>
       <table class="border border-solid w-full mt-14">
         <thead>
@@ -31,13 +33,17 @@
           </tr>
         </thead>
         <tbody class="text-center">
-          <% @meal_logs.each do |meal_log| %>
-            <tr>
-              <td> <%= meal_log.meal_date %> </td>
-              <td> <%= meal_log.breakfast %> </td>
-              <td> <%= meal_log.lunch %> </td>
-              <td> <%= meal_log.dinner %> </td>
-            </tr>
+          <% if @meal_logs.empty?%>
+            <p class="text-2xl  text-center font-medium mt-6"> You have not logged any meals </p>
+          <% else %>
+            <% @meal_logs.each do |meal_log| %>
+              <tr>
+                <td> <%= meal_log.meal_date %> </td>
+                <td> <%= meal_log.breakfast %> </td>
+                <td> <%= meal_log.lunch %> </td>
+                <td> <%= meal_log.dinner %> </td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>
