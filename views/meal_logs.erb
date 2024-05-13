@@ -13,6 +13,12 @@
           font-family: "Roboto Mono", monospace;
           background-color: rgb(236 253 245);
       }
+      .green{
+        color: green;
+      }
+      .red{
+        color: red;
+      }
     </style>
   </head>
   <body>
@@ -39,9 +45,9 @@
             <% @meal_logs.each do |meal_log| %>
               <tr>
                 <td> <%= meal_log.meal_date %> </td>
-                <td> <%= meal_log.breakfast %> </td>
-                <td> <%= meal_log.lunch %> </td>
-                <td> <%= meal_log.dinner %> </td>
+                <td class="<%= meal_log.breakfast ? "green" : "red" %>"> <%= meal_log.breakfast %> </td>
+                <td class="<%= meal_log.lunch ? "green" : "red" %>"> <%= meal_log.lunch %> </td>
+                <td class="<%= meal_log.dinner ? "green" : "red" %>"> <%= meal_log.dinner %> </td>
               </tr>
             <% end %>
           <% end %>
