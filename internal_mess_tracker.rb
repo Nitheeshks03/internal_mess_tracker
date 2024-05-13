@@ -58,12 +58,12 @@ get "/" do
 end
 
 get "/meal_logs" do
-  user_id = params[:user_id]
+  @user_id = params[:user_id]
 
-  @meal_logs = MealLog.joins(:user).select(:breakfast, :lunch, :dinner, :meal_date).where("users.id = ?", user_id).order(meal_date: :desc)
+  @meal_logs = MealLog.joins(:user).select(:breakfast, :lunch, :dinner, :meal_date).where("users.id = ?", @user_id).order(meal_date: :desc)
   @month_total = 0
 
-  @meal_logs.each do |meal_log|
+  @meal_logs.where(meal_date: Date.today.beginning_of_month..Date.today.end_of_month).each do |meal_log|
     @month_total += day_total(meal_log)
   end
 
@@ -80,4 +80,24 @@ post "/meal_log" do
     flash[:error] = @meal_log.errors.full_messages
     redirect "/"
   end
+end
+
+get "/meal_excel" do
+  user_id = params[:user_id]
+  puts "this is the user id #{user_id}"
+  @meal_logs = MealLog.joins(:user).select(:breakfast, :lunch, :dinner, :meal_date).where("users.id = ?", user_id).order(meal_date: :desc)
+
+  p = Axlsx::Package.new
+  wb = p.workbook
+
+  wb.add_worksheet(name: "Meal logs") do |sheet|
+    sheet.add_row ["Meal date", "Breakfast", "Lunch", "Dinner"]
+
+    @meal_logs.each do |meal_log|
+      sheet.add_row [meal_log.meal_date, meal_log.breakfast, meal_log.lunch, meal_log.dinner]
+    end
+  end
+
+  attachment "meal_log.xlsx"
+  p.to_stream.read
 end
