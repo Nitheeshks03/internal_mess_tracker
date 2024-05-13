@@ -53,12 +53,6 @@ def day_total(meal_log)
 end
 
 get "/" do
-  if User.count.zero?
-    @mess_users = ["Nitheesh", "Pranav", "Abhiraj", "Rahul", "Aswin", "Demo", "Vishak"]
-    @mess_users.each do |user|
-      User.create(name: user)
-    end
-  end
   @users = User.all
   erb :index
 end
@@ -66,7 +60,7 @@ end
 get "/meal_logs" do
   user_id = params[:user_id]
 
-  @meal_logs = MealLog.joins(:user).select(:breakfast, :lunch, :dinner, :meal_date).where("users.id = ?", user_id)
+  @meal_logs = MealLog.joins(:user).select(:breakfast, :lunch, :dinner, :meal_date).where("users.id = ?", user_id).order(meal_date: :desc)
   @month_total = 0
 
   @meal_logs.each do |meal_log|
